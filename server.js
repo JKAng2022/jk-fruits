@@ -12,6 +12,11 @@ app.get("/", (req, res) => {
 	res.send("Hello");
 });
 
+//! Create
+app.post("/fruits", (req, res) => {
+    res.send("Create Route")
+})
+
 //! LISTEN
 app.listen(port, () => {
 	console.log(`Server listening on port ${port}`);
