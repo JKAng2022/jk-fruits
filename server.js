@@ -1,23 +1,31 @@
-//! DEPENDENCIES
+//? Dependencies
 require("dotenv").config();
-// console.log(process.env);
 const express = require("express");
+const mongoose = require("mongoose");
+const Fruit = require("./models/fruits");
+const fruitsController = require("./controllers/fruits");
 
-//! CONFIG
+//? Config
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
+const MONGO_URI =
+  process.env.MONGO_URI || "mongodb://localhost:27017/basiccrud";
 
-//! ROUTES
-app.get("/", (req, res) => {
-	res.send("Hello");
+mongoose.connect("mongodb://localhost:27017/basiccrud");
+mongoose.connection.once("open", () => {
+  console.log("connected to mongo");
 });
 
-//! Create
-app.post("/fruits", (req, res) => {
-    res.send("Create Route")
+//? middleware
+app.use(express.urlencoded({ extended: false }));
+app.use("/fruits", fruitsController);
+// app.use("/simon", fruitsController);
+
+app.get("/", (req, res) => {
+    res.send("Hello World");
 })
 
-//! LISTEN
-app.listen(port, () => {
-	console.log(`Server listening on port ${port}`);
+//? listener
+app.listen(PORT, () => {
+  console.log(`listening on port ${PORT}`);
 });
